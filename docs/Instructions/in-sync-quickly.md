@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Mithril
 
-[Mithril](https://mithril.network/doc/) is a stake-based multi-signature protocol for efficiency and scalability. It allows the secure aggregation of cryptographic signatures (in this case, Cardano stake pool operators running mithril signers with agreement on an aggregator). For our purposes, this means that a bunch of SPOs running mithril signers all sign and verify regular snapshots. The db snapshots themselves are not hosted on chain (that would be unwise), but rather hosted on a fast cloud provider (Google in this case). The security and purpose comes from the cryptographic signatures that verify the snapshots. 
+[Mithril](https://mithril.network/doc/) is a stake-based multi-signature protocol for efficiency and scalability. It enables the secure aggregation of cryptographic signatures (in this case, Cardano stake pool operators running Mithril signers with agreement on an aggregator). For our purposes, this means that multiple SPOs running Mithril signers all sign and verify regular snapshots. The DB snapshots themselves are not hosted on-chain (that would be unwise), but rather hosted on a fast cloud provider (Google, in this case). The security and purpose come from the cryptographic signatures that verify the snapshots. 
 
 The more stake involved in signing snapshots, the more secure the Mithril protocol is. 
 
@@ -13,7 +13,7 @@ For our purposes, we will be downloading these signed snapshots using a `mithril
 
 Fortunately for us, this is a relatively quick process (especially compared to compiling the robust `cardano-node` in Haskell, since we can compile Rust crates in parallel).
 
-Since Mithril is built with Rust, we need to install the Rust toolchain.
+Since Mithril is built with Rust, we need to install the Rust toolchain:
 
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -33,7 +33,7 @@ Next, we need to install a few dependencies.
 sudo apt-get install -y libssl-dev make build-essential m4 pkg-config unzip
 ```
 
-Once those have installed, we are going to make a directory, clone the repo, and checkout the appropriate version for `mithril-client-cli` specifically 
+Once those have been installed, we are going to make a directory, clone the repo, and check out the appropriate version for `mithril-client-cli` specifically: 
 
 ```
 mkdir /home/n(x)/mithril/
@@ -159,7 +159,7 @@ Similar to when we built the `mithril-client` this is going to take a few minute
 
 :::
 
-Once the `mithril-client` has finished downloading the Preview network snapshot, it is time to run the node again and see if we can get in sync 
+Once the `mithril-client` has finished downloading the preview network snapshot, it is time to run the node again and see if we can get in sync: 
 
 ```
 cardano-node run --topology ~/preview/config/topology.json \
@@ -181,7 +181,7 @@ If you see this, let the process finish before moving forward. Fortunately this 
 
 :::
 
-In another session with your server, check on the syncing status 
+In another session with your server, check on the syncing status: 
 
 ```
 watch -n 1 cardano-cli query tip --testnet-magic 2

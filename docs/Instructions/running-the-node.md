@@ -3,7 +3,7 @@ sidebar_label: 'Running the Node'
 sidebar_position: 2
 ---
 
-# Running the Cardano Node
+# Running the Cardano node
 
 ### Acquire the node
 
@@ -20,7 +20,7 @@ Also, dynamically compiled binaries require specific libraries (in our case: lib
 
 So for this workshop we will lean on the gracious efforts of the [Armada Alliance](https://armada-alliance.com/), specifically efforts of ZW3RK pool, who provides statically compiled binaries for aarch64, which means that these should run on most distributions of Linux as the dependent libraries are part of the compiled binary.
 
-Grab your statically compiled `cardano-node` and `cardano-cli` binaries from a local server (also a Raspberry Pi5) and copy them to the directory we added to our path `/home/n(X)/preview/bin/`
+Grab your statically compiled `cardano-node` and `cardano-cli` binaries from a local server (also a Raspberry Pi5) and copy them to the directory we added to our path `/home/n(X)/preview/bin/`:
 
 ```
 cd /tmp
@@ -49,13 +49,13 @@ cd cardano-10_4_1-aarch64-static-musl-ghc_9101
 cp cardano-node /home/n(x)/preview/bin/
 cp cardano-cli /home/n(x)/preview/bin/
 ```
-Now remove the archive (saves a small bit of space)
+Now remove the archive (saves a small bit of space):
 
 ```
 cd /tmp
 rm cardano-binaries.tar.zst
 ```
-Lastly, check the versions
+Lastly, check the versions:
 
 ```
 cardano-cli --version
@@ -84,7 +84,7 @@ The node requires the following files to run as a basic node or relay (non-block
 - **Conway Genesis**: contains initial protocol parameters and instrudts `cardano-node` on how to bootstrap the Conway Era of Cardano.
 - **Topology File**: contains list of bootstrap, local, and public peers. (Peers are other nodes running Cardano)
 
-Grab these files
+Grab these files:
 
 ```
 cd /home/n(x)/preview/config
@@ -99,7 +99,7 @@ wget https://book.world.dev.cardano.org/environments/preview/peer-snapshot.json
 ```
 Before starting the node, we need to ensure that our topology file contains the full path of our `peer-snapshot.json` file, so the node starts properly.
 
-Edit the `topology.json` file
+Edit the `topology.json` file:
 
 ```
 nano /home/n(x)/preview/config/topology.json
@@ -110,7 +110,7 @@ Now add the full path of the `peer-snapshot.json` (make sure to adjust the usern
 
 ![peersnap](/img/peer-snap.png)
 
-Now that things are in place, run the node 
+Now you can run the node: 
 
 ```
 cardano-node run --topology ~/preview/config/topology.json \
@@ -142,7 +142,7 @@ watch -n 1 cardano-cli query tip --testnet-magic 2
 
 :::tip
 
-The `--testnet-magic` flag allows us to specify the different testnets. For example, preprod would be `--testnet-magic 1`, while mainnet is `--mainnet`.
+The `--testnet-magic` flag allows us to specify the different testnets. For example, pre-production would be `--testnet-magic 1`, while mainnet is `--mainnet`.
 
 :::
 

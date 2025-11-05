@@ -3,13 +3,13 @@ sidebar_label: 'Logging, Firewall, and Monitoring'
 sidebar_position: 5
 ---
 
-# Logging, Firewall, and Monitoring
+# Logging, firewall, and monitoring
 
 ## A couple of daemons
 
 Before moving forward, let us talk about and add a couple of services to our server. 
 
-The first one is **fail2ban**
+The first one is **fail2ban**.
 
 **fail2ban** is a daemon that monitors and bans clients that repeatedly fail authentication checks such as brute forcing SSH. 
 
@@ -21,7 +21,7 @@ sudo apt install -y fail2ban
 
 The other generic service we would like to install is **chrony**.
 
-**chrony** is an implementation of the Network Time Protocol. **Cardano** is very dependent on time and requires that block producing nodes, relays, and any other node keep accurate time. This is especially critical for block producing nodes as the network expects blocks to be minted and propagated within a second (slot). With default settings **chrony** will regularly check in with publicly available ntp servers. In our case it will check with `pool.ntp.org`. While we have the ability to configure many options in `/etc/chrony.conf`, such as specifying a lower stratum NTP server, the default settings should be more than adequate for our purposes.
+**Chrony** is an implementation of the network time protocol (NTP). **Cardano** is very dependent on time and requires that block-producing nodes, relays, and any other nodes keep accurate time. This is especially critical for block-producing nodes as the network expects blocks to be minted and propagated within a second (slot). With default settings, **chrony** will regularly check in with publicly available NTP servers. In our case, it will check with `pool.ntp.org`. While we can configure many options in `/etc/chrony.conf`, such as specifying a lower stratum NTP server, the default settings should be more than adequate for our purposes.
 
 ```
 sudo apt install -y chrony
@@ -37,7 +37,7 @@ chronyc tracking
 
 ## Firewall
 
-Running any internet-accessible infrastructure requires some security measures to be taken, and the firewall is one of the most important. Today, we will be using **ufw** (uncomplicated firewall), which comes packaged with our Ubuntu server Linux distribution. **ufw** is just a simple and user friendly frontend for **iptables**, which allows us to configure IP packet filtering rules of the Linux kernel firewall.
+Running any internet-accessible infrastructure requires some security measures to be taken, and the firewall is one of the most important. Today, we will be using **ufw** (uncomplicated firewall), which comes packaged with our Ubuntu server Linux distribution. **Ufw** is just a simple and user-friendly frontend for **iptables**, which allows us to configure IP packet filtering rules of the Linux kernel firewall.
 
 First, let us set a couple of default rules. 
 
@@ -72,7 +72,7 @@ If you skip this step and enable the firewall, you will no longer be able to acc
 :::
 
 
-Make your `cardano-node` port available
+Make your `cardano-node` port available:
 
 ```
 sudo ufw allow 1694/tcp
@@ -84,19 +84,19 @@ The `cardano-node` node-to-node (NtN) protocol was designed to facilitate two-wa
 
 :::
 
-Next we need to open the port for the Prometheus node exporter (more on that in a minute)
+Next, we need to open the port for the Prometheus node exporter (more on that in a minute):
 
 ```
 sudo ufw allow 9100/tcp
 ```
 
-Then open the port to our `cardano-node` Prometheus exporter
+Then, open the port to our `cardano-node` Prometheus exporter:
 
 ```
 sudo ufw allow 12798/tcp
 ```
 
-Finally, enable the firewall 
+Finally, enable the firewall: 
 
 ```
 sudo ufw enable
@@ -110,7 +110,7 @@ sudo ufw reload
 
 If everything was done correctly your SSH session should still be active.
 
-Get an overview of your rules
+Get an overview of your rules:
 
 ```
 sudo ufw status
@@ -147,7 +147,7 @@ Find the `"hasPrometheus"` line and change the IP from the localhost `127.0.0.1`
 
 We are not quite ready to save and exit the file yet. While we are in here editing, make a couple of adjustments to enable logging. 
 
-The first we are going to change is the default logging location. This will specify where logs are written if no setup scribe is configured. 
+The first thing we will change is the default logging location. This will specify where logs are written if no setup scribe is configured. 
 
 Find `"defaultScribes"` and we are going to change it from Stdout to FileSK, with a path to the logs directory we created earlier. 
 
@@ -201,11 +201,11 @@ cardano-cli query tip --testnet-magic 2
 
 :::tip
 
-If you are getting a 'socket not found' error when doing this, but your `node.service` is active, give the node a minute to startup until the socket file is created and try again.
+If you are getting a 'socket not found' error when doing this, but your `node.service` is active, give the node a minute to start up until the socket file is created and try again.
 
 :::
 
-Take a live look at your logs with the tail command
+Take a live look at your logs with the tail command:
 
 ```
 cd /home/n(x)/preview/logs/
@@ -216,7 +216,7 @@ You should see the live log output of your `cardano-node` to the `cardano.json` 
 
 `ctrl + c` to end the command
 
-Next, install the **Prometheus** node exporter 
+Next, install the **Prometheus** node exporter: 
 
 ```
 sudo apt install -y prometheus-node-exporter

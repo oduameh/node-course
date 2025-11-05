@@ -72,7 +72,7 @@ PORT=1694
 
 Once added, please save with `ctrl + o` and exit with `ctrl + x`
 
-You will notice that the variables set within this bash script more-or-less match what we input when starting the node on the command line, with the exception of the RTS option added at the end of the command to run the node at the bottom of the script. 
+You will notice that the variables set within this bash script more or less match what we input when starting the node on the command line, except for the RTS option added at the end of the command to run the node at the bottom of the script. 
 
 Make the script executable. 
 
@@ -182,7 +182,7 @@ You will see that a symlink has been created for the service
 
 Once this is done, systemd will ensure that the `cardano-node` is running the way we specified in the background, ready to use. 
 
-Just to make sure, query the tip of the chain 
+Just to make sure, query the tip of the chain: 
 
 ```
 cardano-cli query tip --testnet-magic 2

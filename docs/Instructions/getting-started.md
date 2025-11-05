@@ -3,7 +3,7 @@ sidebar_label: 'Getting Started'
 sidebar_position: 1
 ---
 
-# Getting Started
+# Getting started
 
 ### Welcome to the Cardano operations course
 ![lab1](/img/lab1.jpeg)
@@ -83,7 +83,7 @@ export CARDANO_NODE_SOCKET_PATH="/home/n(X)/preview/socket/node.socket"
 Save with `ctrl + o` and exit the editor with `ctrl + x`
 
 
-Source your bash file and then check your paths
+Source your bash file and then check your paths:
 
 ```
 cd
