@@ -9,7 +9,7 @@ sudebar_position: 8
 
 [Kupo](https://github.com/CardanoSolutions/kupo) is a very fast and lightweight chain-index for the Cardano blockchain. It is like a lightweight version of [db-sync](https://github.com/IntersectMBO/cardano-db-sync). Chain indexers are useful to developers and service providers in that they process and organize raw blockchain data to suit developer needs. 
 
-Similar to `ogmios`, we are going to grab a pre-compiled static `kupo` binary a server. 
+Similar to `ogmios`, we are going to grab a pre-compiled static `kupo` binary from a server 
 
 ```
 cd /tmp
@@ -22,7 +22,7 @@ Unzip it
 unzip kupo-v2.11.0-aarch64-linux.zip
 ```
 
-Copy it to our bin directory
+Copy it to your bin directory
 
 ```
 cp /tmp/bin/kupo /home/n(x)/preview/bin/
@@ -37,7 +37,7 @@ kupo --version
 ```
 ![kupover](/img/kupover1.png)
 
-Let's create a startup script. 
+Create a startup script.
 
 ```
 nano /home/n(x)/preview/scripts/kupo_start.sh
@@ -85,7 +85,7 @@ You should see output of `kupo` syncing.
 
 Exit the process `ctrl + c`
 
-Now let's make another service file in the `scripts` directory. 
+Now make another service file in the `scripts` directory. 
 
 ```
 nano /home/n(x)/preview/scripts/kupo.service
@@ -145,7 +145,7 @@ Check the status.
 sudo systemctl status kupo.service
 ```
 
-It should say "active"
+It should say 'active'.
 
 If active, enable the service. 
 
@@ -153,7 +153,7 @@ If active, enable the service.
 sudo systemctl enable kupo.service
 ```
 
-Now lets allow connections to port `1442` for queries. 
+Now allow connections to port `1442` for queries 
 
 ```
 sudo ufw allow 1442/tcp
@@ -165,7 +165,7 @@ Reload.
 sudo ufw reload
 ```
 
-Now let's see if it is working! 
+Now see if it is working. 
 
 From a local terminal session on your machine (meaning not logged into your server).
 

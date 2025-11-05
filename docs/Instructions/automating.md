@@ -11,17 +11,17 @@ Before going too much further, I'd like to talk about RTS options for `cardano-n
 
 :::
 
-**RTS** stands for Runtime System, which is a software layer for Haskell programs that allows for the customization of thing such as: 
-- Memory Management
-- Garbage Collection
+**RTS** stands for runtime system, which is a software layer for Haskell programs that allows for the customization of things such as: 
+- Memory management
+- Garbage collection
 - Concurrency and parallelism
-- Exception handling
+- Exception handling.
 
 RTS options are a Haskell specific feature that the `cardano-node` takes specific advantage of.
 
 These options can be implemented:
-- during the compliling of the node
-- as an override flag while running the node
+- During the compilation of the node
+- As an override flag while running the node.
 
 We can check the RTS options baked into our static binary `cardano-node` 
 
@@ -72,7 +72,7 @@ PORT=1694
 
 Once added, please save with `ctrl + o` and exit with `ctrl + x`
 
-You'll notice that the variables set within this bash script more-or-less match what we input when starting the node on the command line, with the exception of the RTS option added at the end of the command to run the node at the bottom of the script. 
+You will notice that the variables set within this bash script more-or-less match what we input when starting the node on the command line, with the exception of the RTS option added at the end of the command to run the node at the bottom of the script. 
 
 Make the script executable. 
 
@@ -94,7 +94,7 @@ You should see output similar to the following
 
 Kill the process once more with `ctrl + c`
 
-## Creating the Systemd Service
+## Creating the systemd service
 
 We are going to craft the service file in scripts directory we created earlier
 
@@ -130,7 +130,7 @@ WantedBy          = multi-user.target
 
 Save the file with `ctrl + o` and exit with `ctrl + x`
 
-Now let's copy our draft file to the permissioned location where services are located on our system. 
+Now copy our draft file to the permissioned location where services are located on our system 
 
 ```
 sudo cp /home/n(x)/preview/scripts/node.service /etc/systemd/system/
@@ -154,7 +154,7 @@ Anytime a service file is changed, you'll need to reload the systemd daemon
 
 :::
 
-Let's start the our new node service
+Start the new node service
 
 ```
 sudo systemctl start node.service
@@ -176,13 +176,13 @@ If it is active, we need to then enable the service so it automatically runs on 
 sudo systemctl enable node.service
 ```
 
-You'll see that a symlink has been created for the service
+You will see that a symlink has been created for the service
 
 ![symlink](/img/enabledsymlink.png)
 
-Once this is done, systemd will ensure that the `cardano-node` is running the way we specified in the background, ready to use! 
+Once this is done, systemd will ensure that the `cardano-node` is running the way we specified in the background, ready to use. 
 
-Just to make sure, let's query the tip of the chain. 
+Just to make sure, query the tip of the chain 
 
 ```
 cardano-cli query tip --testnet-magic 2

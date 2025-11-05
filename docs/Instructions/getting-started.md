@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Getting Started
 
-### Welcome to the Cardano Operations Course!
+### Welcome to the Cardano operations course
 ![lab1](/img/lab1.jpeg)
 ## Connecting to your server via SSH
 
@@ -17,9 +17,9 @@ Mac OSX and Linux (most distros) have the SSH client already installed. If you h
 
 We are not going to use a best practice for SSH today as we are relaxing security for ease of use for this lab exercise. In a production environment you will need to harden your SSH server connection methods. 
 
-Here's a short list of ways to harden SSH: 
-- Change default SSH port from 22 to a much higher number. 22 is commonly scanned and attacked via brute-force attacks and scanners typically start and ascend when looking for opened ports.
-- Disable password authentication and use generated SSH keys only. 
+Here is a short list of ways to harden SSH: 
+- Change default SSH port from 22 to a much higher number. Port 22 is commonly scanned and attacked via brute-force attacks, and scanners typically start and ascend when looking for opened ports.
+- Disable password authentication and use generated SSH keys only.
 - Configure firewall to only allow SSH connections from specific IPs that you own.
 - Install `fail2ban` or similar to limit authentication attempts to your server.
 - Configure a tunnel between devices using something like `wireguard` or `openvpn` between client and server.
@@ -32,7 +32,7 @@ For Mac OSX and Linux, use the following command.
 
 :::note
 
-Please note that the user "n" and IP addresses used here are for a preconfigured lab environment, and your IP address(es) will be different).
+Please note that the user 'n' and IP addresses used here are for a preconfigured lab environment, and your IP address(es) will be different.
 
 :::
 
@@ -50,11 +50,11 @@ Replace the `X`, or whatever is in the last octet in `10.42.0.X` with the correc
 
 ::: 
 
-## Time to get started!
+## Time to get started
 
-Once you have connected it is time to get started!
+Once you have connected it is time to get started.
 
-Before we get rolling, let's check for updates/upgrades to our server. (These should be relatively up-to-date, so this hopefully won't take too long.
+Before we get rolling, check for updates/upgrades to our server. (These should be relatively up-to-date, so this hopefully will not take too long.)
 
 ```
 sudo apt update -y && sudo apt upgrade -y
@@ -83,7 +83,7 @@ export CARDANO_NODE_SOCKET_PATH="/home/n(X)/preview/socket/node.socket"
 Save with `ctrl + o` and exit the editor with `ctrl + x`
 
 
-Let's source our bash file and then check our paths
+Source your bash file and then check your paths
 
 ```
 cd

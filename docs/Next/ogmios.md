@@ -7,11 +7,11 @@ sidebar_position: 7
 
 ![ogmiospic](/img/ogmiospic.png)
 
-From the developer at https://ogmios.dev/faq : *"Ogmios is a lightweight bridge interface for `cardano-node`. It offers a WebSockets API that enables local clients to speak Ouroboros' mini-protocols via JSON/RPC. Ogmios is a fast and lightweight solution that can be deployed alongside relays to create entry points on the Cardano network for various types of applications"*
+From the developer at https://ogmios.dev/faq: *'Ogmios is a lightweight bridge interface for `cardano-node`. It offers a WebSockets API that enables local clients to speak Ouroboros' mini-protocols via JSON/RPC. Ogmios is a fast and lightweight solution that can be deployed alongside relays to create entry points on the Cardano network for various types of applications'*.
 
-It is a very convenient component of the Cardano ecosystem that many projects take advantage of as part of their projects. Today we are going to set it up alongside our running `cardano-node`
+It is a very convenient component of the Cardano ecosystem that many projects take advantage of as part of their projects. Today we are going to set it up alongside our running `cardano-node`.
 
-Ok, next let's grab the latest static binary of the arm build from the developer.
+Ok, next grab the latest static binary of the arm build from the developer.
 
 ```
 cd /tmp
@@ -23,7 +23,7 @@ Unzip the archive
 ```
 unzip ogmios-v6.13.0-aarch64-linux.zip
 ```
-Copy the binary from the extracted bin to our specified bin directory
+Copy the binary from the extracted bin to your specified bin directory
 
 ```
 cp /tmp/bin/ogmios ~/preview/bin/
@@ -36,7 +36,7 @@ ogmios --version
 
 
 
-Let's make this API endpoint available externally. 
+Make this API endpoint available externally. 
 
 ```
 sudo ufw allow 1337/tcp
@@ -64,7 +64,7 @@ Now we need to create a script to start `ogmios`.
 nano /home/n(x)/preview/scripts/ogmios_start.sh
 ```
 
-Next, let's give it the correct startup options. You'll notice some of the startup options on `ogmios` is similar to `cardano-node`. We are going to set the port to 1337, and the IP to listening at `0.0.0.0`. 
+Next, give it the correct startup options. You will notice some of the startup options on `ogmios` are similar to `cardano-node`. We are going to set the port to 1337, and the IP to listening at `0.0.0.0`. 
 
 Add the following to the `ogmios_start.sh` file you just opened in nano.
 
@@ -85,7 +85,7 @@ Make the script executable.
 chmod +x /home/n(x)/preview/scripts/ogmios_start.sh
 ```
 
-Let's test the script in our terminal window.
+Test the script in your terminal window.
 
 ```
 cd /home/n(x)/preview/scripts
@@ -104,9 +104,9 @@ You should be greeted with a nice dashboard.
 
 Go ahead and kill the running process in your terminal with `ctrl + c`
 
-Next, let's automate the script with systemd. 
+Next, automate the script with systemd. 
 
-## Make the Service
+## Make the service
 
 Create the sample service file. 
 
@@ -171,6 +171,6 @@ If it shows `active`, we can enable the service.
 ```
 sudo systemctl enable ogmios.service
 ```
-Go open your `ogmios` dashoboard again in your browser and proudly observe the fruits of your labor. 
+Go open your `ogmios` dashboard again in your browser and proudly observe the fruits of your labor. 
 
 

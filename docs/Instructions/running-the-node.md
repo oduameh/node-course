@@ -5,22 +5,22 @@ sidebar_position: 2
 
 # Running the Cardano Node
 
-### Acquire the Node
+### Acquire the node
 
-There are several options on acquiring the `cardano-node` and `cardano-cli` binaries.
+There are several options for acquiring the `cardano-node` and `cardano-cli` binaries:
 
-- Intersect MBO offers pre-compiled static binaries on their cardano-node [releases page](https://github.com/IntersectMBO/cardano-node/releases)
-- Static or Dynamic binaries may also be built from [source](https://github.com/IntersectMBO/cardano-node)
+- Intersect MBO offers pre-compiled static binaries on their cardano-node [releases page](https://github.com/IntersectMBO/cardano-node/releases).
+- Static or dynamic binaries may also be built from [source](https://github.com/IntersectMBO/cardano-node).
 
 The pre-compiled static binaries will not work in our case, since Raspberry Pis run on ARM architecture (aarch64). 
 
-While Raspberry Pi5 single board computers pack a punch for their small size, compiling `cardano-node` and `cardano-cli`from source would likely take the duration of the workshop to complete.
+While Raspberry Pi5 single board computers pack a punch for their small size, compiling `cardano-node` and `cardano-cli` from source would likely take the duration of the workshop to complete.
 
 Also, dynamically compiled binaries require specific libraries (in our case: libsodium, secp256k1, and blst, each of which need to be compiled on their own). 
 
-So for this workshop we will lean on the gracious efforts of the [Armada Alliance](https://armada-alliance.com/), specifically efforts of ZW3RK pool, who provides statically compiled binaries for aarch64, which means that these should run on most distributions of linux as the dependent libraries are part of the compiled binary.
+So for this workshop we will lean on the gracious efforts of the [Armada Alliance](https://armada-alliance.com/), specifically efforts of ZW3RK pool, who provides statically compiled binaries for aarch64, which means that these should run on most distributions of Linux as the dependent libraries are part of the compiled binary.
 
-Let's grab our statically compiled `cardano-node` and `cardano-cli` binaries from a local server (also a Raspberry Pi5) and copy them to the directory we added to our path `/home/n(X)/preview/bin/`
+Grab your statically compiled `cardano-node` and `cardano-cli` binaries from a local server (also a Raspberry Pi5) and copy them to the directory we added to our path `/home/n(X)/preview/bin/`
 
 ```
 cd /tmp
@@ -49,13 +49,13 @@ cd cardano-10_4_1-aarch64-static-musl-ghc_9101
 cp cardano-node /home/n(x)/preview/bin/
 cp cardano-cli /home/n(x)/preview/bin/
 ```
-Now let's remove the archive (saves a small bit of space)
+Now remove the archive (saves a small bit of space)
 
 ```
 cd /tmp
 rm cardano-binaries.tar.zst
 ```
-Lastly, let's check the versions
+Lastly, check the versions
 
 ```
 cardano-cli --version
@@ -74,7 +74,7 @@ Output again
 
 ### Running the node
 
-In order to run, the `cardano-node` will require some configuration files alongside a few startup flags
+In order to run, the `cardano-node` will require some configuration files alongside a few startup flags.
 
 The node requires the following files to run as a basic node or relay (non-block-producing): 
 - **Main configuration file**: contains node settings and points to the **Shelley**, **Byron**, **Alonzo**, and **Conway** Genesis files. 
@@ -84,7 +84,7 @@ The node requires the following files to run as a basic node or relay (non-block
 - **Conway Genesis**: contains initial protocol parameters and instrudts `cardano-node` on how to bootstrap the Conway Era of Cardano.
 - **Topology File**: contains list of bootstrap, local, and public peers. (Peers are other nodes running Cardano)
 
-Let's grab these files
+Grab these files
 
 ```
 cd /home/n(x)/preview/config
@@ -99,7 +99,7 @@ wget https://book.world.dev.cardano.org/environments/preview/peer-snapshot.json
 ```
 Before starting the node, we need to ensure that our topology file contains the full path of our `peer-snapshot.json` file, so the node starts properly.
 
-Let's edit the `topology.json` file.
+Edit the `topology.json` file
 
 ```
 nano /home/n(x)/preview/config/topology.json
@@ -110,7 +110,7 @@ Now add the full path of the `peer-snapshot.json` (make sure to adjust the usern
 
 ![peersnap](/img/peer-snap.png)
 
-Now that things are in place, let's run the node. 
+Now that things are in place, run the node 
 
 ```
 cardano-node run --topology ~/preview/config/topology.json \
@@ -142,7 +142,7 @@ watch -n 1 cardano-cli query tip --testnet-magic 2
 
 :::tip
 
-The `--testnet-magic` flag allows us to specify the different testnets. For example, preprod would be `--testnet-magic 1` while mainnet is `--mainnet`
+The `--testnet-magic` flag allows us to specify the different testnets. For example, preprod would be `--testnet-magic 1`, while mainnet is `--mainnet`.
 
 :::
 
