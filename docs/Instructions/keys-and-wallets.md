@@ -7,11 +7,11 @@ sidebar_position: 6
 
 ## Keys
 
-We will now create payment keys, staking keys, and addresses, and submit a simple transaction. 
+Create payment keys, staking keys, and addresses, then submit a simple transaction.
 
 ### Payment keys
 
-Start by creating a couple of directories to house your keys and addresses:
+Create directories to store keys and addresses:
 
 :::danger
 
@@ -24,7 +24,7 @@ mkdir -p  ~/preview/{wallet1,wallet2}
 cd ~/preview/wallet1
 ```
 
-The first key pair we will create is the payment key pair for our 'wallet1'. This set of keys allows for the holding and transfer of ada and other native assets: 
+Create the payment key pair for wallet1. This set of keys allows for the holding and transfer of ADA and other native assets:
 
 ```
 cardano-cli address key-gen \
@@ -34,7 +34,7 @@ cardano-cli address key-gen \
 
 ### Staking keys
 
-The next pair we will create is a staking key pair for wallet1. This allows us to generate an address using **both** payment and staking keys, which enables us to stake on the Cardano blockchain. We can derive an address from **just** the payment keys, and that would be considered an *enterprise* address, which cannot participate in staking.
+Create a staking key pair for wallet1. An address can be generated using **both** payment and staking keys, which enables staking on the Cardano blockchain. An address derived from **only** payment keys is considered an *enterprise* address, which cannot participate in staking:
 
 ```
 cardano-cli conway stake-address key-gen \
@@ -44,7 +44,7 @@ cardano-cli conway stake-address key-gen \
 
 ### Address
 
-Next we are going to build an address using the verification (public) keys of the payment and stake key pairs we just created for wallet1. 
+Build an address using the verification (public) keys of the payment and stake key pairs created for wallet1:
 
 ```
 cardano-cli address build \
@@ -54,7 +54,7 @@ cardano-cli address build \
 --out-file ~/preview/wallet1/payment.addr
 ```
 
-Once this is done, concatenate the payment.addr file. 
+Display the payment address:
 
 ```
 cat ~/preview/wallet1/payment.addr
@@ -71,15 +71,15 @@ Once you have generated your address for Wallet1, please use the [Faucet](https:
 
 ### Wallet 2
 
-Move on to the next step and create your second 'wallet', wallet2:
+Create a second wallet, wallet2:
 
 ```
 cd ~/preview/wallet2
 ```
 
-This time, we are going to create a simple enterprise address without the ability to participate in staking. 
+Create a simple enterprise address without the ability to participate in staking.
 
-First, create the payment key pair again:
+Create the payment key pair:
 
 ```
 cardano-cli address key-gen \
@@ -89,7 +89,7 @@ cardano-cli address key-gen \
 
 ### Enterprise address
 
-From here, simply build the address using the verification key file:
+Build the address using the verification key file:
 
 ```
 cardano-cli address build \
@@ -98,7 +98,7 @@ cardano-cli address build \
 --testnet-magic 2
 ```
 
-Once you have requested test ada from the faucet (in wallet1), query the UTXOs belonging to your payment address: 
+After requesting test ADA from the faucet (for wallet1), query the UTXOs belonging to the payment address:
 
 ```
 cardano-cli query utxo --address $(cat ~/preview/wallet1/payment.addr) --testnet-magic 2
@@ -106,36 +106,36 @@ cardano-cli query utxo --address $(cat ~/preview/wallet1/payment.addr) --testnet
 
 :::tip
 
-This may take a second, don't panic.
+This query may take a moment to complete.
 
 :::
 
-You should see an output containing the TxHash, TxIx value, and the amount of ada contained on the UTxO in lovelaces. 
+The output will display the TxHash, TxIx value, and the amount of ADA contained in the UTXO (in lovelaces): 
 
 ![utxo1](/img/utxo1.png)
 
 :::note
 
-1000000 lovelaces equals 1 ada. When using `cardano-cli` we will always input values in lovelaces
+1,000,000 lovelaces equals 1 ADA. When using `cardano-cli`, always input values in lovelaces.
 
 :::
 
+Confirm the wallet has a valid UTXO with an amount of ADA, then craft and submit a simple transaction using `cardano-cli`.
 
-Once you confirm that your wallet has a valid UTxO with an amount of ada associated with it, we will craft and submit a simple transaction using `cardano-cli`.
-
-First, create a directory to house your transaction files: 
+Create a directory for transaction files:
 
 ```
 mkdir ~/preview/tx
 cd ~/preview/tx
 ```
-For this first transaction, we are going to send a small amount of ada from 'wallet1' to 'wallet2'.
 
-Build the transaction
+Send a small amount of ADA from wallet1 to wallet2.
+
+Build the transaction:
 
 :::tip
 
-Please ensure you replace the carroted utxo hash text and the txix text with your actual utxo information obtained form the `query utxo` command we did earlier.
+Replace the placeholder UTXO hash and TxIx with the actual UTXO information obtained from the `query utxo` command.
 
 :::
 
@@ -149,11 +149,11 @@ cardano-cli conway transaction build \
 --out-file ~/preview/tx/tx1.raw
 ```
 
-You should see at the bottom of the command an Estimated fee in lovelace for the transaction. 
+The estimated fee in lovelace for the transaction will be displayed:
 
 ![fee1](/img/estfee1.png)
 
-Once we have the transaction file built (`tx1.raw`), sign the transaction with the wallet1 `payment.skey`:
+Sign the transaction with the wallet1 `payment.skey`:
 
 ```
 cardano-cli conway transaction sign --tx-body-file ~/preview/tx/tx1.raw \
@@ -161,7 +161,7 @@ cardano-cli conway transaction sign --tx-body-file ~/preview/tx/tx1.raw \
 --out-file ~/preview/tx/tx1.signed
 ```
 
-Once we have signed the transaction, it is time to submit it:
+Submit the signed transaction:
 
 ```
 cardano-cli conway transaction submit --tx-file ~/preview/tx/tx1.signed \
@@ -169,19 +169,20 @@ cardano-cli conway transaction submit --tx-file ~/preview/tx/tx1.signed \
 --testnet-magic 2
 ```
 
-If all was done correctly, you will be greeted with a success notification. 
+A success notification should be displayed: 
 
 ![success](/img/txsub1.png)
 
 
-Now check the addresses of wallet1 and wallet2 to see what UTXOs they now contain: 
+Verify the UTXOs in wallet1 and wallet2:
 
 ```
 cardano-cli query utxo --address $(cat ~/preview/wallet1/payment.addr) --testnet-magic 2
 ```
+
 ![utx1](/img/w1utxo1.png)
 
-and for wallet2
+For wallet2:
 
 ```
 cardano-cli query utxo --address $(cat ~/preview/wallet2/payment.addr) --testnet-magic 2
@@ -189,16 +190,14 @@ cardano-cli query utxo --address $(cat ~/preview/wallet2/payment.addr) --testnet
 
 ![utx2](/img/w2utxo1.png)
 
-What do you notice? 
-
 :::info
 
-At this point, we have created a transaction with `cardano-cli` in the simplest possible way. However, we can add to what we have just done. 
+This transaction demonstrates the simplest use of `cardano-cli`.
 
-Extra credit exercises: 
+Extra credit exercises:
 - Create a wallet3
-- Send 10 ada each to wallet3 and wallet2 from wallet1, consuming a single UTXO
-- Send 10 ada each from wallet1 and from wallet2 to wallet3 (20 ada total) in a single transaction
-- Create a transaction using `build-raw` instead of `build` (you will need to manually calculate the fee, lovelaces, change, ttl, etc).
+- Send 10 ADA each to wallet3 and wallet2 from wallet1, consuming a single UTXO
+- Send 10 ADA each from wallet1 and from wallet2 to wallet3 (20 ADA total) in a single transaction
+- Create a transaction using `build-raw` instead of `build` (manually calculate the fee, lovelaces, change, TTL, etc.).
 
 If you want to try to build a tx with `build-raw` follow the instructions [here](https://developers.cardano.org/docs/operate-a-stake-pool/register-stake-address).

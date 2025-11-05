@@ -9,9 +9,9 @@ sidebar_position: 1
 ![lab1](/img/lab1.jpeg)
 ## Connecting to your server via SSH
 
-The first thing we need to do is connect to your server via secure shell (SSH). 
+Connect to the server via Secure Shell (SSH).
 
-Mac OSX and Linux (most distros) have the SSH client already installed. If you have a Windows machine, you'll need to install [putty](https://www.putty.org/)
+Mac OS X and Linux (most distributions) have the SSH client already installed. Windows users need to install [PuTTY](https://www.putty.org/).
 
 :::warning
 
@@ -26,9 +26,9 @@ Here is a short list of ways to harden SSH:
 
 :::
 
-First, we need to connect to your device with SSH. 
+Connect to the device with SSH.
 
-For Mac OSX and Linux, use the following command. 
+For Mac OS X and Linux, use the following command: 
 
 :::note
 
@@ -40,7 +40,7 @@ Please note that the user 'n' and IP addresses used here are for a preconfigured
 ssh n(X)@10.42.0.X
 ```
 
-For putty users, make sure port is `22`, protocol or connection type is `ssh` and that your IP is correct. Then `open` the connection. 
+For PuTTY users, ensure the port is `22`, protocol or connection type is `SSH`, and the IP address is correct. Then open the connection: 
 
 ![putty1](/img/putty1.png)
 
@@ -52,38 +52,36 @@ Replace the `X`, or whatever is in the last octet in `10.42.0.X` with the correc
 
 ## Time to get started
 
-Once you have connected it is time to get started.
-
-Before we get rolling, check for updates/upgrades to our server. (These should be relatively up-to-date, so this hopefully will not take too long.)
+Check for updates and upgrades to the server:
 
 ```
 sudo apt update -y && sudo apt upgrade -y
 ```
 
-Next, let's make a few working directories
+Create working directories:
 
 ```
 cd
 mkdir -p preview/{node,config,socket,test-db,scripts,bin,logs}
 ```
 
-Now, let's add a few path items to our `.bashrc` file
+Add path items to the `.bashrc` file.
 
-Open your `.bashrc` file with a text editor
+Open the `.bashrc` file with a text editor:
 
 ```
 nano /home/n(x)/.bashrc
 ```
-Then, note the following export lines and copy them at the end of the `.bashrc` file. Make sure to modify `n(X)` to your username when you do this.
+Add the following export lines to the end of the `.bashrc` file (modify `n(X)` to match the username):
 
 ```
 export PATH="/home/n(X)/preview/bin:$PATH"
 export CARDANO_NODE_SOCKET_PATH="/home/n(X)/preview/socket/node.socket"
 ```
-Save with `ctrl + o` and exit the editor with `ctrl + x`
 
+Save with `ctrl + o` and exit the editor with `ctrl + x`.
 
-Source your bash file and then check your paths:
+Source the bash file and verify the paths:
 
 ```
 cd
@@ -91,7 +89,7 @@ cd
 echo $PATH $CARDANO_NODE_SOCKET_PATH
 ```
 
-You should see the `/home/n(X)/preview/bin:/home/n(X)/` and `/home/n(X)/preview/socket/node.socket` paths as part of the output
+The output should include `/home/n(X)/preview/bin:/home/n(X)/` and `/home/n(X)/preview/socket/node.socket` as part of the paths.
 
 
 

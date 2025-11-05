@@ -7,27 +7,27 @@ sidebar_position: 5
 
 ## A couple of daemons
 
-Before moving forward, let us talk about and add a couple of services to our server. 
+Install two essential services on the server.
 
-The first one is **fail2ban**.
+The first is **fail2ban**.
 
-**fail2ban** is a daemon that monitors and bans clients that repeatedly fail authentication checks such as brute forcing SSH. 
+**fail2ban** is a daemon that monitors and bans clients that are repeatedly failing authentication checks, such as brute-force SSH attempts.
 
-It is a good idea to run this on any publicly accessible server.
+Run this daemon on any publicly accessible server:
 
 ```
 sudo apt install -y fail2ban
 ```
 
-The other generic service we would like to install is **chrony**.
+The second service is **chrony**.
 
-**Chrony** is an implementation of the network time protocol (NTP). **Cardano** is very dependent on time and requires that block-producing nodes, relays, and any other nodes keep accurate time. This is especially critical for block-producing nodes as the network expects blocks to be minted and propagated within a second (slot). With default settings, **chrony** will regularly check in with publicly available NTP servers. In our case, it will check with `pool.ntp.org`. While we can configure many options in `/etc/chrony.conf`, such as specifying a lower stratum NTP server, the default settings should be more than adequate for our purposes.
+**Chrony** is an implementation of the Network Time Protocol (NTP). **Cardano** is very time-dependent and requires that block-producing nodes, relays, and other nodes keep accurate time. This is especially critical for block-producing nodes, as the network expects blocks to be minted and propagated within a second (slot). With default settings, **chrony** regularly checks with publicly available NTP servers (in this case, `pool.ntp.org`). While many options can be configured in `/etc/chrony.conf`, such as specifying a lower stratum NTP server, the default settings are adequate for most purposes:
 
 ```
 sudo apt install -y chrony
 ```
 
-Once installed, check to ensure **chrony** is keeping your server in sync.
+Verify **chrony** is keeping the server in sync:
 
 ```
 chronyc tracking
@@ -37,23 +37,23 @@ chronyc tracking
 
 ## Firewall
 
-Running any internet-accessible infrastructure requires some security measures to be taken, and the firewall is one of the most important. Today, we will be using **ufw** (uncomplicated firewall), which comes packaged with our Ubuntu server Linux distribution. **Ufw** is just a simple and user-friendly frontend for **iptables**, which allows us to configure IP packet filtering rules of the Linux kernel firewall.
+Running internet-accessible infrastructure requires security measures, and the firewall is one of the most important. Use **ufw** (uncomplicated firewall), which comes packaged with the Ubuntu Server Linux distribution. **Ufw** is a simple and user-friendly frontend for **iptables** that allows configuration of IP packet filtering rules for the Linux kernel firewall.
 
-First, let us set a couple of default rules. 
+Set the default firewall rules.
 
-The first default is to deny incoming traffic.
+Deny incoming traffic:
 
 ```
 sudo ufw default deny incoming
 ```
 
-Next default is to allow outgoing.
+Allow outgoing traffic:
 
 ```
 sudo ufw default allow outgoing
 ```
 
-Make sure to allow the **ssh** service to be reached on your server.
+Allow the **SSH** service to be reached on the server:
 
 ```
 sudo ufw allow ssh
@@ -102,15 +102,15 @@ Finally, enable the firewall:
 sudo ufw enable
 ```
 
-Then reload it.
+Reload the firewall:
 
 ```
 sudo ufw reload
 ```
 
-If everything was done correctly your SSH session should still be active.
+The SSH session should still be active.
 
-Get an overview of your rules:
+View the firewall rules:
 
 ```
 sudo ufw status
@@ -120,23 +120,23 @@ sudo ufw status
 
 ## Logging and monitoring
 
-The next thing we need to do is to turn on some logging and monitoring for our node.
+Enable logging and monitoring for the node.
 
-`cardano-node` comes with the ability to produce **Prometheus** metrics by default. 
+`cardano-node` has the ability to produce **Prometheus** metrics by default.
 
 :::info
 
-**Prometheus** is an open-source monitoring system
+**Prometheus** is an open-source monitoring system.
 
 :::
 
-To allow a **Prometheus** server to scrape data from our node, we need to make an adjustment to our node configuration file. 
+Adjust the node configuration file to allow a **Prometheus** server to scrape data from the node:
 
 ```
 nano /home/n(x)/preview/config/config.json
 ```
 
-Find the `"hasPrometheus"` line and change the IP from the localhost `127.0.0.1` to listening `0.0.0.0`
+Find the `"hasPrometheus"` line and change the IP from localhost `127.0.0.1` to listening `0.0.0.0`:
 
 ```
   "hasPrometheus": [
@@ -145,11 +145,11 @@ Find the `"hasPrometheus"` line and change the IP from the localhost `127.0.0.1`
   ],
 ```
 
-We are not quite ready to save and exit the file yet. While we are in here editing, make a couple of adjustments to enable logging. 
+Before saving and exiting the file, make adjustments to enable logging.
 
-The first thing we will change is the default logging location. This will specify where logs are written if no setup scribe is configured. 
+Change the default logging location. This specifies where logs are written if no setup scribe is configured.
 
-Find `"defaultScribes"` and we are going to change it from Stdout to FileSK, with a path to the logs directory we created earlier. 
+Find `"defaultScribes"` and change it from Stdout to FileSK with a path to the logs directory: 
 
 ```
   "defaultScribes": [
@@ -160,7 +160,7 @@ Find `"defaultScribes"` and we are going to change it from Stdout to FileSK, wit
   ],
 ```
 
-Now we are going to specify the `"setupScribes"` output. Find the `"setupScribes"` line and modify it to match the following.
+Specify the `"setupScribes"` output. Find the `"setupScribes"` line and modify it to match the following:
 
 ```
     "setupScribes": [
@@ -179,21 +179,21 @@ Be careful to preserve the `.json` formatting when adjusting these. It is easy t
 
 :::
 
-Once your `config.json` file has been updated, go ahead and save `ctrl + o` and exit `ctrl + x`
+Save the `config.json` file with `ctrl + o` and exit with `ctrl + x`.
 
-To make these changes active, we need to restart the node.
+Restart the node to activate these changes:
 
 ```
 sudo systemctl restart node.service
 ```
 
-Give it a few seconds and then check to make sure the service is running. 
+Verify the service is running:
 
 ```
 sudo systemctl status node.service
 ```
 
-You can also query the tip again. 
+Query the tip to confirm the node is active: 
 
 ```
 cardano-cli query tip --testnet-magic 2
@@ -205,23 +205,23 @@ If you are getting a 'socket not found' error when doing this, but your `node.se
 
 :::
 
-Take a live look at your logs with the tail command:
+View the logs in real time with the tail command:
 
 ```
 cd /home/n(x)/preview/logs/
-tail -f n !! cardano.json
+tail -f cardano.json
 ```
 
-You should see the live log output of your `cardano-node` to the `cardano.json` file being written to. 
+This displays the live log output of `cardano-node` being written to the `cardano.json` file.
 
-`ctrl + c` to end the command
+End the command with `ctrl + c`.
 
-Next, install the **Prometheus** node exporter: 
+Install the **Prometheus** node exporter:
 
 ```
 sudo apt install -y prometheus-node-exporter
 ```
 
-This automatically starts the service and the **Prometheus** server I have configured should be able to scrape your server as an endpoint. You should be able to see your node stats appear on the **Grafana** dashboard now.
+This automatically starts the service, allowing the configured **Prometheus** server to scrape the server as an endpoint. Node stats should now appear on the **Grafana** dashboard.
 
 

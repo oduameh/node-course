@@ -7,7 +7,7 @@ sidebar_position: 4
 
 :::info
 
-Before going too much further, I'd like to talk about RTS options for `cardano-node`
+This section covers RTS options for `cardano-node` before automating the node.
 
 :::
 
@@ -17,19 +17,19 @@ Before going too much further, I'd like to talk about RTS options for `cardano-n
 - Concurrency and parallelism
 - Exception handling.
 
-RTS options are a Haskell specific feature that the `cardano-node` takes specific advantage of.
+RTS options are a Haskell-specific feature that `cardano-node` takes specific advantage of.
 
 These options can be implemented:
 - During the compilation of the node
 - As an override flag while running the node.
 
-We can check the RTS options baked into our static binary `cardano-node` 
+Check the RTS options baked into the static binary `cardano-node`:
 
 ```
 cardano-node +RTS --info
 ```
 
-When we build our script next, we will override an RTS option to increase the threads `cardano-node` consumes from 2 to 4.
+The script below overrides an RTS option to increase the threads `cardano-node` consumes from 2 to 4.
 
 :::warning
 
@@ -40,29 +40,29 @@ Warning! Only set the RTS flag value equal to the number of CPU cores on the ser
 
 ## Building the script
 
-The first thing we need to do to automate the running of our node is to create a startup script. 
+Create a start-up script to automate the running of the node:
 
 ```
 nano /home/n(x)/preview/scripts/node.sh
 ```
 
-Add the following to the `node.sh` shell script we just created. 
+Add the following to the `node.sh` shell script: 
 
 ```
 #!/bin/bash
 #
-# We will set a few variables to shorten our launch command
-# Database Path
+# Set a few variables to shorten the launch command
+# Database path
 DB=/home/n(x)/preview/db
-# Socket Path
+# Socket path
 SOCKET=/home/n(x)/preview/socket/node.socket
-# Configuration File
+# Configuration file
 CONFIG=/home/n(x)/preview/config/config.json
-# Topology File
+# Topology file
 TOPOLOGY=/home/n(x)/preview/config/topology.json
-# Host Address. We will set this to 'listen' for incoming connections
+# Host address - set to listen for incoming connections
 HOST=0.0.0.0
-# Please change <your port> to the port for either your block producing node or relay
+# Change <your port> to the port for either the block-producing node or relay
 PORT=1694
 #
 # Command to run the node
@@ -70,17 +70,17 @@ PORT=1694
 /home/n(x)/preview/bin/cardano-node run --topology $TOPOLOGY --database-path $DB --socket-path $SOCKET --port $PORT --config $CONFIG --host-addr $HOST +RTS -N4
 ```
 
-Once added, please save with `ctrl + o` and exit with `ctrl + x`
+Save with `ctrl + o` and exit with `ctrl + x`.
 
-You will notice that the variables set within this bash script more or less match what we input when starting the node on the command line, except for the RTS option added at the end of the command to run the node at the bottom of the script. 
+The variables set within this bash script match what is input when starting the node on the command line, except for the RTS option added at the end of the command to run the node. 
 
-Make the script executable. 
+Make the script executable:
 
 ```
 chmod +x /home/n(x)/preview/scripts/node.sh
 ```
 
-Test your script 
+Test the script:
 
 ```
 cd /home/n(x)/preview/scripts
@@ -88,15 +88,15 @@ cd /home/n(x)/preview/scripts
 ./node.sh
 ```
 
-You should see output similar to the following
+The output should look similar to the following:
 
 ![scrptop](/img/testnodescript.png)
 
-Kill the process once more with `ctrl + c`
+Kill the process with `ctrl + c`.
 
 ## Creating the systemd service
 
-We are going to craft the service file in scripts directory we created earlier
+Create the service file in the scripts directory:
 
 ```
 cd /home/n(x)/preview/scripts
@@ -104,7 +104,7 @@ cd /home/n(x)/preview/scripts
 nano node.service
 ```
 
-Add the following to our service file. This service file is very basic, depending on your needs you might want to add, change, or do things differently. 
+Add the following to the service file (this is a basic configuration that can be modified based on specific needs): 
 
 ```
 [Unit]
@@ -128,21 +128,21 @@ SyslogIdentifier  = cardano-node
 WantedBy          = multi-user.target
 ```
 
-Save the file with `ctrl + o` and exit with `ctrl + x`
+Save the file with `ctrl + o` and exit with `ctrl + x`.
 
-Now copy our draft file to the permissioned location where services are located on our system 
+Copy the service file to the systemd directory:
 
 ```
 sudo cp /home/n(x)/preview/scripts/node.service /etc/systemd/system/
 ```
 
-We also need to ensure the service file has the appropriate permissions
+Ensure the service file has the appropriate permissions:
 
 ```
 sudo chmod 0644 /etc/systemd/system/node.service
 ```
 
-Next, we need to reload the daemon so our system sees our new service file
+Reload the daemon so the system recognizes the new service file:
 
 ```
 sudo systemctl daemon-reload
@@ -150,45 +150,45 @@ sudo systemctl daemon-reload
 
 :::tip
 
-Anytime a service file is changed, you'll need to reload the systemd daemon
+Reload the systemd daemon whenever a service file is changed.
 
 :::
 
-Start the new node service
+Start the node service:
 
 ```
 sudo systemctl start node.service
 ```
 
-Now we need to ensure our service was started successfully. 
+Verify the service started successfully:
 
 ```
 sudo systemctl status node.service
 ```
 
-If all has gone well, we should be greeted with an output that states the service as `active`
+The output should show the service as `active`:
 
 ![active](/img/nodeserviceactive.png)
 
-If it is active, we need to then enable the service so it automatically runs on system startup. 
+If the service is active, enable it to run automatically on system start-up:
 
 ```
 sudo systemctl enable node.service
 ```
 
-You will see that a symlink has been created for the service
+A symlink will be created for the service:
 
 ![symlink](/img/enabledsymlink.png)
 
-Once this is done, systemd will ensure that the `cardano-node` is running the way we specified in the background, ready to use. 
+The systemd service will now ensure that `cardano-node` runs in the background as specified.
 
-Just to make sure, query the tip of the chain: 
+Query the tip of the chain to verify synchronization:
 
 ```
 cardano-cli query tip --testnet-magic 2
 ```
 
-Hopefully you are in sync! 
+Confirm the node is in sync:
 
 ![sync](/img/querytipinsync1.png)
 

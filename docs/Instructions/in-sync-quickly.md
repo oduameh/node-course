@@ -5,35 +5,35 @@ sidebar_position: 3
 
 # Mithril
 
-[Mithril](https://mithril.network/doc/) is a stake-based multi-signature protocol for efficiency and scalability. It enables the secure aggregation of cryptographic signatures (in this case, Cardano stake pool operators running Mithril signers with agreement on an aggregator). For our purposes, this means that multiple SPOs running Mithril signers all sign and verify regular snapshots. The DB snapshots themselves are not hosted on-chain (that would be unwise), but rather hosted on a fast cloud provider (Google, in this case). The security and purpose come from the cryptographic signatures that verify the snapshots. 
+[Mithril](https://mithril.network/doc/) is a stake-based multi-signature protocol for efficiency and scalability. It enables the secure aggregation of cryptographic signatures (in this case, Cardano stake pool operators running Mithril signers with agreement on an aggregator). Multiple SPOs running Mithril signers all sign and verify regular snapshots. The DB snapshots themselves are not hosted on-chain (that would be unwise), but rather hosted on a fast cloud provider (Google, in this case). The security and purpose come from the cryptographic signatures that verify the snapshots.
 
-The more stake involved in signing snapshots, the more secure the Mithril protocol is. 
+The more stake involved in signing snapshots, the more secure the Mithril protocol is.
 
-For our purposes, we will be downloading these signed snapshots using a `mithril-client-cli`. However, we are going to have to compile our own binaries this time. 
+Download these signed snapshots using `mithril-client-cli`. Compile the binaries for this client.
 
-Fortunately for us, this is a relatively quick process (especially compared to compiling the robust `cardano-node` in Haskell, since we can compile Rust crates in parallel).
+This is a relatively quick process (especially compared to compiling the robust `cardano-node` in Haskell, since Rust crates can be compiled in parallel).
 
-Since Mithril is built with Rust, we need to install the Rust toolchain:
+Install the Rust toolchain, as Mithril is built with Rust:
 
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-Hit enter through the default options. 
+Select the default options by pressing Enter.
 
-Once finished, source the cargo env directory. 
+Source the cargo environment directory:
 
 ```
 . "$HOME/.cargo/env"
 ```
 
-Next, we need to install a few dependencies. 
+Install dependencies:
 
 ```
 sudo apt-get install -y libssl-dev make build-essential m4 pkg-config unzip
 ```
 
-Once those have been installed, we are going to make a directory, clone the repo, and check out the appropriate version for `mithril-client-cli` specifically: 
+Create a directory, clone the repository, and check out the appropriate version for `mithril-client-cli`: 
 
 ```
 mkdir /home/n(x)/mithril/
@@ -48,7 +48,7 @@ git fetch --tags --all
 git checkout 2524.0
 ```
 
-Next it's time to build it.
+Build the client:
 
 ```
 make build
@@ -56,110 +56,116 @@ make build
 
 :::note
 
-While this builds, this is a good opportunity to stand up, walk around, stretch your legs, grab a coffee, talk about politics, etc.
+This build process will take a few minutes.
 
 :::
 
 :::tip
 
-Compiling can be quite system intensive. If you would like, while the `mithril-client` is compiling, open another SSH session with your Raspberry Pi server and run the `htop` or `btop` commands to see how hard that little machine is working. ![workwork](/img/workingharthtop.png) 
+Compiling can be quite system-intensive. To monitor system performance, open another SSH session and run the `htop` or `btop` commands to see system resource usage. ![workwork](/img/workingharthtop.png)
 
-If you want to install `btop`, open a new SSH session to your Raspberry Pi and run `sudo apt install -y btop`
+To install `btop`, open a new SSH session and run:
+
+```
+sudo apt install -y btop
+```
 
 ![worktop](/img/btop.png)
 :::
 
-Once the build has finished, copy the files to the directory within your path.
+Copy the compiled binary to the directory within the path:
 
 ```
 cp /home/n(x)/mithril/mithril/mithril-client-cli/mithril-client /home/n(x)/preview/bin/
 ```
 
-Check your `mithril-client` version.
+Verify the `mithril-client` version:
 
 ```
 mithril-client --version
 ```
-Your output should look something like this
+
+The output should look similar to this:
 
 ![clientv](/img/mithrilclient1.png)
 
-Now we are ready to pull a snapshot down and get our node synced with the chain. 
+Download a snapshot to sync the node with the chain.
 
-First, let's set a couple of variables specific to our aggregator and network. Because we only really need to do this one time, we can just create these variables during this terminal/ssh session. 
+Set variables specific to the aggregator and network. These variables only need to be created for this terminal/SSH session.
 
-First variable is the network.
+Set the network variable:
 
 ```
 export CARDANO_NETWORK=preview
 ```
-Second is the aggregator endpoint.
+
+Set the aggregator endpoint:
 
 ```
 export AGGREGATOR_ENDPOINT=https://aggregator.pre-release-preview.api.mithril.network/aggregator
 ```
 
-Next is the Genesis vkey.
+Set the Genesis verification key:
 
 ```
 export GENESIS_VERIFICATION_KEY=$(wget -q -O - https://raw.githubusercontent.com/input-output-hk/mithril/main/mithril-infra/configuration/pre-release-preview/genesis.vkey)
 ```
 
-Lastly, the snapshot digest.
+Set the snapshot digest:
 
 ```
 export SNAPSHOT_DIGEST=latest
 ```
 
-With that done, let's see what snapshots are available. 
+View available snapshots: 
 
 ```
 mithril-client cardano-db snapshot list
 ```
 
-As you can see, we have a menu of snapshots available to us. (Yours will look a little different since the chain reflects the passage of time and this image was not captured while you attend this workshop.)
+A list of available snapshots will be displayed (the list will differ based on when this command is run):
 
 ![snapshotlist](/img/snapshotlist2.png)
 
-Expand the details on one of the snapshots. The snapshot I am going to use in these examples is not going to be the newest snapshot available by the time of this event, so if you would like the most up-to-date snapshot, I recommend viewing your list and grabbing the most recent. (You could use mine if you wanted, it will just take longer to sync and might defeat our purpose of downloading a verified snapshot to save time.)
+View the details of a specific snapshot. For the most up-to-date snapshot, use the most recent digest from the list:
 
 ```
 mithril-client cardano-db snapshot show 2c0894e86576aa702f5949044b0c6ff04e047333191c72ed34ccdea0ef87515a
 ```
 
-This command produces the digest for the specified snapshot. This gives us critical information such as the node version.
+This command displays the digest for the specified snapshot, providing critical information such as the node version:
 
 ![digest](/img/digest21133.png)
 
 :::note
 
-Please ensure you are in the desired working directory as the snapshots are considerable in size. 
+Ensure you are in the desired working directory, as the snapshots are considerable in size.
 
 :::
 
-Change to the preview directory. 
+Change to the preview directory:
 
 ```
 cd /home/n(x)/preview
 ```
 
-It's now time to download the snapshot. Please note your digest hash if you are using a newer one than on this guide.
+Download the snapshot (use the appropriate digest hash for the selected snapshot):
 
 ```
 mithril-client cardano-db download e640efdf122c07bd753cac8d2fefdd95be994980494a9553f918e5cba35bfefd
 ```
 
-You should see something like this
+The download progress should be displayed:
 
 ![snapdl](/img/mithrildownload1.png)
 
 :::note
 
-Similar to when we built the `mithril-client` this is going to take a few minutes. 
+This download will take a few minutes.
 
 :::
 
-Once the `mithril-client` has finished downloading the preview network snapshot, it is time to run the node again and see if we can get in sync: 
+Run the node after the snapshot download completes: 
 
 ```
 cardano-node run --topology ~/preview/config/topology.json \
@@ -169,35 +175,35 @@ cardano-node run --topology ~/preview/config/topology.json \
 --config ~/preview/config/config.json
 ```
 
-You should again see the node startup output in your current session.
+The node start-up output should be visible in the current session.
 
 :::note
 
-If you see 'Replayed Block' messages, please do not worry as this is a normal security function of the Haskell node where it performs a full replay on the database to re-process the block history of the network.
+If 'Replayed Block' messages appear, this is a normal security function of the Haskell node where it performs a full replay on the database to re-process the block history of the network:
 
-![block-replay]/img/block-replay.png
+![block-replay](/img/replayed-block.png)
 
-If you see this, let the process finish before moving forward. Fortunately this does not take nearly as long on the testnet since the ledger is much smaller. On mainnet this can take quite a while.
+Let this process finish before moving forward. This does not take as long on the testnet since the ledger is much smaller compared to mainnet.
 
 :::
 
-In another session with your server, check on the syncing status: 
+Check the syncing status in another session:
 
 ```
 watch -n 1 cardano-cli query tip --testnet-magic 2
 ```
 
-It might take a couple of minutes for the node to start and sync, but you should eventually see the following. 
+The node may take a couple of minutes to start and sync:
 
 :::info
 
-If you get the 'socket 11 not found' error, it is because the `cardano-cli` cannot find the socket to communicate with the node. In this case, if things were done correctly, the socket file has not been created quite yet as part of the node startup process.
+If a 'socket not found' error appears, it means the `cardano-cli` cannot find the socket to communicate with the node. The socket file has not been created yet as part of the node start-up process.
 
 :::
 
 ![syncprog](/img/querytipinsync1.png)
 
-Ok, time to kill the node again with `ctrl + c`, but do not worry. The next time we start the node it will pick up where it left off.
+Stop the node with `ctrl + c`. The next time the node starts, it will resume from where it left off.
 
 
 
