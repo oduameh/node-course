@@ -11,7 +11,7 @@ This section covers RTS options for `cardano-node` before automating the node.
 
 :::
 
-**RTS** stands for runtime system, which is a software layer for Haskell programs that allows for the customization of things such as: 
+**RTS** stands for runtime system—a Haskell software layer that allows customization of the following: 
 - Memory management
 - Garbage collection
 - Concurrency and parallelism
