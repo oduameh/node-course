@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Getting Started'
+sidebar_label: 'Getting started'
 sidebar_position: 1
 ---
 
@@ -15,12 +15,12 @@ Mac OS X and Linux (most distributions) have the SSH client already installed. W
 
 :::warning
 
-We are not going to use a best practice for SSH today as we are relaxing security for ease of use for this lab exercise. In a production environment you will need to harden your SSH server connection methods. 
+This course does not cover SSH best practices, as certain security measures are simplified for the purpose of this lab exercise. In a production environment, SSH connection methods must be properly hardened. 
 
 Here is a short list of ways to harden SSH: 
 - Change default SSH port from 22 to a much higher number. Port 22 is commonly scanned and attacked via brute-force attacks, and scanners typically start and ascend when looking for opened ports.
 - Disable password authentication and use generated SSH keys only.
-- Configure firewall to only allow SSH connections from specific IPs that you own.
+- Configure the firewall to only allow SSH connections from specific IPs that you own.
 - Install `fail2ban` or similar to limit authentication attempts to your server.
 - Configure a tunnel between devices using something like `wireguard` or `openvpn` between client and server.
 
@@ -40,13 +40,13 @@ Please note that the user 'n' and IP addresses used here are for a preconfigured
 ssh n(X)@10.42.0.X
 ```
 
-For PuTTY users, ensure the port is `22`, protocol or connection type is `SSH`, and the IP address is correct. Then open the connection: 
+For PuTTY users, ensure the port is `22`, the protocol or connection type is `SSH`, and the IP address is correct. Then open the connection: 
 
 ![putty1](/img/putty1.png)
 
 :::tip
 
-Replace the `X`, or whatever is in the last octet in `10.42.0.X` with the correct information on your credential card, as well as n`X`
+Replace the `X`, or whatever is in the last octet in `10.42.0.X` with the correct information on your credential card, as well as n`X`.
 
 ::: 
 
