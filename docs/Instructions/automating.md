@@ -1,9 +1,9 @@
 ---
-sidebar_label: 'Automating Things'
+sidebar_label: 'Automating'
 sidebar_position: 4
 ---
 
-# Automating the Node
+# Automating the node
 
 :::info
 
@@ -33,7 +33,7 @@ The script below overrides an RTS option to increase the threads `cardano-node` 
 
 :::warning
 
-Warning! Only set the RTS flag value equal to the number of CPU cores on the server you are configuring. If you are unsure, just leave it at 2.
+Warning! Only set the RTS flag value equal to the number of CPU cores on the server you are configuring. If you are unsure, leave it at 2.
 
 :::
 
@@ -92,7 +92,7 @@ The output should look similar to the following:
 
 ![scrptop](/img/testnodescript.png)
 
-Kill the process with `ctrl + c`.
+End the process with `ctrl + c`.
 
 ## Creating the systemd service
 
@@ -108,7 +108,7 @@ Add the following to the service file (this is a basic configuration that can be
 
 ```
 [Unit]
-Description       = Cardano Node
+Description       = Cardano node
 Wants             = network-online.target
 After             = network-online.target  
   
