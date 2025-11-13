@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Logging, Firewall, and Monitoring'
+sidebar_label: 'Logging, firewall, and monitoring'
 sidebar_position: 5
 ---
 
@@ -11,7 +11,7 @@ Install two essential services on the server.
 
 The first is **fail2ban**.
 
-**fail2ban** is a daemon that monitors and bans clients that are repeatedly failing authentication checks, such as brute-force SSH attempts.
+**Fail2ban** is a daemon that monitors and bans clients that are repeatedly failing authentication checks, such as brute-force SSH attempts.
 
 Run this daemon on any publicly accessible server:
 
@@ -37,7 +37,7 @@ chronyc tracking
 
 ## Firewall
 
-Running internet-accessible infrastructure requires security measures, and the firewall is one of the most important. Use **ufw** (uncomplicated firewall), which comes packaged with the Ubuntu Server Linux distribution. **Ufw** is a simple and user-friendly frontend for **iptables** that allows configuration of IP packet filtering rules for the Linux kernel firewall.
+Running an internet-accessible infrastructure requires security measures, and the firewall is one of the most important. Use **ufw** (uncomplicated firewall), which comes packaged with the Ubuntu Server Linux distribution. **Ufw** is a simple and user-friendly frontend for **iptables** that allows configuration of IP packet filtering rules for the Linux kernel firewall.
 
 Set the default firewall rules.
 
@@ -61,7 +61,7 @@ sudo ufw allow ssh
 
 :::tip
 
-In production, it is a best practice to change the port your SSH server uses to something higher and not often used (default is port 22), as there are many scanners out there looking specifically for port 22, and many scanners start scanning at a lower number. We are not going to do this today for a couple of reasons: time, these are not publicly accessible, and these servers are not critical infrastructure.
+In production, it is a best practice to change the port your SSH server uses to something higher and less frequently used (the default is port 22), as there are many scanners out there specifically targeting port 22, and many scanners start scanning at lower numbers. We are not going to do this today for a couple of reasons: time, these are not publicly accessible, and these servers are not critical infrastructure.
 
 :::
 
@@ -122,7 +122,7 @@ sudo ufw status
 
 Enable logging and monitoring for the node.
 
-`cardano-node` has the ability to produce **Prometheus** metrics by default.
+`cardano-node` can produce **Prometheus** metrics by default.
 
 :::info
 
@@ -130,7 +130,7 @@ Enable logging and monitoring for the node.
 
 :::
 
-Adjust the node configuration file to allow a **Prometheus** server to scrape data from the node:
+Adjust the node configuration file to allow a **Prometheus** server to fetch data from the node:
 
 ```
 nano /home/n(x)/preview/config/config.json
@@ -222,6 +222,6 @@ Install the **Prometheus** node exporter:
 sudo apt install -y prometheus-node-exporter
 ```
 
-This automatically starts the service, allowing the configured **Prometheus** server to scrape the server as an endpoint. Node stats should now appear on the **Grafana** dashboard.
+This automatically starts the service, allowing the configured **Prometheus** server to collect the server as an endpoint. Node stats should now appear on the **Grafana** dashboard.
 
 
