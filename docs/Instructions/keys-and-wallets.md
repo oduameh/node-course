@@ -1,9 +1,9 @@
 ---
-sidebar_label: 'Keys and Addresses'
+sidebar_label: 'Keys and addresses'
 sidebar_position: 6
 ---
 
-# Keys and Addresses
+# Keys and addresses
 
 ## Keys
 
@@ -15,7 +15,7 @@ Create directories to store keys and addresses:
 
 :::danger
 
-We are not following best practices here. If you are creating payment or other key pairs that require security on mainnet or that interact with real funds, you **MUST** store the secret keys in an offline manner. 
+We are not following best practices here. If you are creating payment or other key pairs that require security on mainnet or that interact with real funds, you **MUST** store the secret keys offline. 
 
 :::
 
@@ -24,7 +24,7 @@ mkdir -p  ~/preview/{wallet1,wallet2}
 cd ~/preview/wallet1
 ```
 
-Create the payment key pair for wallet1. This set of keys allows for the holding and transfer of ADA and other native assets:
+Create the payment key pair for wallet1. This set of keys allows for the holding and transfer of ada and other native assets:
 
 ```
 cardano-cli address key-gen \
@@ -65,7 +65,7 @@ cat ~/preview/wallet1/payment.addr
 
 :::info
 
-Once you have generated your address for Wallet1, please use the [Faucet](https://docs.cardano.org/cardano-testnets/tools/faucet) to request some test ADA to play around with. 
+Once you have generated your address for Wallet1, please use the [faucet](https://docs.cardano.org/cardano-testnets/tools/faucet) to request some test ada to play around with. 
 
 :::
 
@@ -98,7 +98,7 @@ cardano-cli address build \
 --testnet-magic 2
 ```
 
-After requesting test ADA from the faucet (for wallet1), query the UTXOs belonging to the payment address:
+After requesting test ada from the faucet (for wallet1), query the UTXOs belonging to the payment address:
 
 ```
 cardano-cli query utxo --address $(cat ~/preview/wallet1/payment.addr) --testnet-magic 2
@@ -110,17 +110,17 @@ This query may take a moment to complete.
 
 :::
 
-The output will display the TxHash, TxIx value, and the amount of ADA contained in the UTXO (in lovelaces): 
+The output will display the TxHash, TxIx value, and the amount of ada contained in the UTXO (in lovelaces): 
 
 ![utxo1](/img/utxo1.png)
 
 :::note
 
-1,000,000 lovelaces equals 1 ADA. When using `cardano-cli`, always input values in lovelaces.
+1,000,000 lovelaces equals 1 ada. When using `cardano-cli`, always input values in lovelaces.
 
 :::
 
-Confirm the wallet has a valid UTXO with an amount of ADA, then craft and submit a simple transaction using `cardano-cli`.
+Confirm the wallet has a valid UTXO with an amount of ada, then craft and submit a simple transaction using `cardano-cli`.
 
 Create a directory for transaction files:
 
@@ -129,7 +129,7 @@ mkdir ~/preview/tx
 cd ~/preview/tx
 ```
 
-Send a small amount of ADA from wallet1 to wallet2.
+Send a small amount of ada from wallet1 to wallet2.
 
 Build the transaction:
 
@@ -195,9 +195,9 @@ cardano-cli query utxo --address $(cat ~/preview/wallet2/payment.addr) --testnet
 This transaction demonstrates the simplest use of `cardano-cli`.
 
 Extra credit exercises:
-- Create a wallet3
-- Send 10 ADA each to wallet3 and wallet2 from wallet1, consuming a single UTXO
-- Send 10 ADA each from wallet1 and from wallet2 to wallet3 (20 ADA total) in a single transaction
-- Create a transaction using `build-raw` instead of `build` (manually calculate the fee, lovelaces, change, TTL, etc.).
+- Create wallet3
+- Send 10 ada each to wallet3 and wallet2 from wallet1, consuming a single UTXO
+- Send 10 ada each from wallet1 and from wallet2 to wallet3 (20 ada total) in a single transaction
+- Create a transaction using `build-raw` instead of `build` (manually calculate the fee, lovelaces, change, TTL, etc).
 
-If you want to try to build a tx with `build-raw` follow the instructions [here](https://developers.cardano.org/docs/operate-a-stake-pool/register-stake-address).
+If you want to try to build a transaction with `build-raw`, follow the instructions [here](https://developers.cardano.org/docs/operate-a-stake-pool/register-stake-address).
