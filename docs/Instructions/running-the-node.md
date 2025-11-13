@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Running the Node'
+sidebar_label: 'Running the node'
 sidebar_position: 2
 ---
 
@@ -9,7 +9,7 @@ sidebar_position: 2
 
 There are several options for acquiring the `cardano-node` and `cardano-cli` binaries:
 
-- Intersect MBO offers pre-compiled static binaries on their cardano-node [releases page](https://github.com/IntersectMBO/cardano-node/releases).
+- Intersect MBO offers pre-compiled static binaries on their cardano-node [releases page](https://github.com/IntersectMBO/cardano-node/releases)
 - Static or dynamic binaries may also be built from [source](https://github.com/IntersectMBO/cardano-node).
 
 The pre-compiled static binaries will not work on Raspberry Pis, as they run on ARM architecture (aarch64).
@@ -29,7 +29,7 @@ wget -c https://github.com/armada-alliance/cardano-node-binaries/blob/main/stati
 
 :::note
 
-If you are using amd64 CPU architecture, make sure and grab the right binary from the [releases](https://github.com/intersectmbo/cardano-node/releases) page rather than the Armada Alliance arm binary in the instructions.
+If you are using the amd64 CPU architecture, ensure you download the correct binary from the [releases](https://github.com/intersectmbo/cardano-node/releases) page, rather than the Armada Alliance arm binary specified in the instructions.
 
 :::
 
@@ -79,14 +79,14 @@ The output should be:
 
 ### Running the node
 
-To run, `cardano-node` requires configuration files and start-up flags.
+Running `cardano-node` requires configuration files and start-up flags.
 
 The following files are required to run as a basic node or relay (non-block-producing):
-- **Main configuration file**: contains node settings and points to the **Shelley**, **Byron**, **Alonzo**, and **Conway** Genesis files.
-- **Byron Genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Byron Era of Cardano.
-- **Shelley Genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Shelley Era of Cardano.
-- **Alonzo Genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Alonzo Era of Cardano.
-- **Conway Genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Conway Era of Cardano.
+- **Main configuration file**: contains node settings and points to the **Shelley**, **Byron**, **Alonzo**, and **Conway** genesis files
+- **Byron genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Byron era of Cardano
+- **Shelley genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Shelley era of Cardano
+- **Alonzo genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Alonzo era of Cardano
+- **Conway genesis**: contains initial protocol parameters and instructs `cardano-node` on how to bootstrap the Conway era of Cardano
 - **Topology file**: contains a list of bootstrap, local, and public peers (peers are other nodes running Cardano).
 
 Download these files:
