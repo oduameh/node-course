@@ -7,27 +7,27 @@ sudebar_position: 8
 
 ![kupo1](/img/kupopic1.png)
 
-[Kupo](https://github.com/CardanoSolutions/kupo) is a very fast and lightweight chain-index for the Cardano blockchain. It is like a lightweight version of [db-sync](https://github.com/IntersectMBO/cardano-db-sync). Chain indexers are useful to developers and service providers in that they process and organize raw blockchain data to suit developer needs. 
+[Kupo](https://github.com/CardanoSolutions/kupo) is a fast and lightweight chain index for the Cardano blockchain. It is like a lightweight version of [db-sync](https://github.com/IntersectMBO/cardano-db-sync). Chain indexers are beneficial to developers and service providers because they process and organize raw blockchain data to meet developer needs. 
 
-Similar to `ogmios`, we are going to grab a pre-compiled static `kupo` binary from a server 
+Similar to `ogmios`, download a precompiled static `kupo` binary from the server:
 
 ```
 cd /tmp
 
 wget https://github.com/CardanoSolutions/kupo/releases/download/v2.11/kupo-v2.11.0-aarch64-linux.zip
 ```
-Unzip it
+Unzip it:
 
 ```
 unzip kupo-v2.11.0-aarch64-linux.zip
 ```
 
-Copy it to your bin directory
+Copy it to your bin directory:
 
 ```
 cp /tmp/bin/kupo /home/n(x)/preview/bin/
 ```
-Again, make sure we have it in the right place
+Ensure you have it in the right place:
 
 ```
 which kupo
@@ -37,13 +37,13 @@ kupo --version
 ```
 ![kupover](/img/kupover1.png)
 
-Create a startup script.
+Create a startup script:
 
 ```
 nano /home/n(x)/preview/scripts/kupo_start.sh
 ```
 
-Copy the follwing into the `kupo_start.sh` file.
+Copy the following into the `kupo_start.sh` file:
 
 ```
 #!/bin/bash
@@ -51,9 +51,9 @@ Copy the follwing into the `kupo_start.sh` file.
 # Kupo configuration:
 # - Using local Ogmios instance on port 1337
 # - Matching all patterns with "*"
-# - Starting from specific block
+# - Starting from a specific block
 # - Deferring DB indexes for faster startup
-# - Working directory in user's home
+# - Working directory in the user's home
 # - Listening on all interfaces on port 1442
 
 /home/n(x)/preview/bin/kupo \
@@ -67,9 +67,9 @@ Copy the follwing into the `kupo_start.sh` file.
 --port 1442
 ```
 
-Save and exit, `ctrl + o` and `ctrl + x`.
+Save and exit using `ctrl + o` and `ctrl + x`.
 
-Make it executable and start it. 
+Make it executable and start it:
 
 ```
 chmod +x /home/n(x)/preview/scripts/kupo_start.sh
@@ -79,19 +79,19 @@ cd /home/n(x)/preview/scripts/
 ./kupo_start.sh
 ```
 
-You should see output of `kupo` syncing.
+You should see the output of `kupo` syncing:
 
 ![kuposy](/img/indexing1.png)
 
-Exit the process `ctrl + c`
+Exit the process using `ctrl + c`.
 
-Now make another service file in the `scripts` directory. 
+Now, create another service file in the `scripts` directory:
 
 ```
 nano /home/n(x)/preview/scripts/kupo.service
 ```
 
-Copy the following into your service file. 
+Copy the following into your service file: 
 
 ```
 [Unit]
@@ -115,31 +115,31 @@ SyslogIdentifier  = kupo
 WantedBy          = multi-user.target
 ```
 
-Copy the service file to your system directory. 
+Copy the service file to your system directory: 
 
 ```
 sudo cp /home/n(x)preview/scripts/kupo.service /etc/systemd/system/
 ```
 
-Give it the correct permissions. 
+Provide it with the correct permissions: 
 
 ```
 sudo chmod 0644 /etc/systemd/system/kupo.service
 ```
 
-Reload daemons.
+Reload daemons:
 
 ```
 sudo systemctl daemon-reload
 ```
 
-Start the service. 
+Start the service: 
 
 ```
 sudo systemctl start kupo.service
 ```
 
-Check the status. 
+Check the status: 
 
 ```
 sudo systemctl status kupo.service
@@ -147,36 +147,34 @@ sudo systemctl status kupo.service
 
 It should say 'active'.
 
-If active, enable the service. 
+If active, enable the service:
 
 ```
 sudo systemctl enable kupo.service
 ```
 
-Now allow connections to port `1442` for queries 
+Now allow connections to port `1442` for queries: 
 
 ```
 sudo ufw allow 1442/tcp
 ```
 
-Reload. 
+Reload: 
 
 ```
 sudo ufw reload
 ```
 
-Now see if it is working. 
+Now check if everything is working. 
 
-From a local terminal session on your machine (meaning not logged into your server).
-
-We are going to curl health metrics from your `kupo` endpoint. 
+From a local terminal session on your machine (not logged into the server), use `curl` to request health metrics from your `kupo` endpoint:
 
 ```
 curl "http://yourserverip:1442/health"
 ```
 
-If everything is correctly configured, you will see output similar to this. 
+If everything is correctly configured, you will see output similar to this:
 
 ![kupohealth](/img/kupohealth.png)
 
-The documentation for `kupo` can be found [here](https://cardanosolutions.github.io/kupo/#section/Overview). See what other endpoints and data you can grab from your chain indexer! 
+You can find Kupo documentation [here](https://cardanosolutions.github.io/kupo/#section/Overview). Explore what other endpoints and data you can retrieve from your chain indexer. 
