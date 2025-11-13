@@ -1,11 +1,11 @@
 ---
-sidebar_label: 'Catching Up'
+sidebar_label: 'Catching up'
 sidebar_position: 3
 ---
 
 # Mithril
 
-[Mithril](https://mithril.network/doc/) is a stake-based multi-signature protocol for efficiency and scalability. It enables the secure aggregation of cryptographic signatures (in this case, Cardano stake pool operators running Mithril signers with agreement on an aggregator). Multiple SPOs running Mithril signers all sign and verify regular snapshots. The DB snapshots themselves are not hosted on-chain (that would be unwise), but rather hosted on a fast cloud provider (Google, in this case). The security and purpose come from the cryptographic signatures that verify the snapshots.
+[Mithril](https://mithril.network/doc/) is a stake-based multi-signature protocol for efficiency and scalability. It enables the secure aggregation of cryptographic signatures (in this case, Cardano stake pool operators (SPOs) running Mithril signers with agreement on an aggregator). All SPOs running Mithril signers sign and verify regular snapshots. The DB snapshots themselves are not hosted on-chain (that would be unwise), but rather hosted on a fast cloud provider (Google, in this case). The security and purpose come from the cryptographic signatures that verify the snapshots.
 
 The more stake involved in signing snapshots, the more secure the Mithril protocol is.
 
@@ -19,7 +19,7 @@ Install the Rust toolchain, as Mithril is built with Rust:
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-Select the default options by pressing Enter.
+Select the default options by pressing 'Enter'.
 
 Source the cargo environment directory:
 
@@ -105,7 +105,7 @@ Set the aggregator endpoint:
 export AGGREGATOR_ENDPOINT=https://aggregator.pre-release-preview.api.mithril.network/aggregator
 ```
 
-Set the Genesis verification key:
+Set the genesis verification key:
 
 ```
 export GENESIS_VERIFICATION_KEY=$(wget -q -O - https://raw.githubusercontent.com/input-output-hk/mithril/main/mithril-infra/configuration/pre-release-preview/genesis.vkey)
@@ -179,11 +179,11 @@ The node start-up output should be visible in the current session.
 
 :::note
 
-If 'Replayed Block' messages appear, this is a normal security function of the Haskell node where it performs a full replay on the database to re-process the block history of the network:
+If 'Replayed Block' messages appear, this is a normal security function of the Haskell node, where it performs a full replay on the database to re-process the block history of the network:
 
 ![block-replay](/img/replayed-block.png)
 
-Let this process finish before moving forward. This does not take as long on the testnet since the ledger is much smaller compared to mainnet.
+Let this process complete before proceeding. This does not take as long on the testnet since the ledger is much smaller compared to mainnet.
 
 :::
 
